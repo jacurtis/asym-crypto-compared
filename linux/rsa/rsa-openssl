@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Key generation
+openssl genpkey -algorithm RSA -out private_key.pem
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+
+# Encryption
+echo "Hello, RSA!" > message.txt
+openssl rsautl -encrypt -inkey public_key.pem -pubin -in message.txt -out message.enc
+
+# Decryption
+openssl rsautl -decrypt -inkey private_key.pem -in message.enc -out decrypted_message.txt
+cat decrypted_message.txt
