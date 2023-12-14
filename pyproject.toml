@@ -9,6 +9,9 @@ packages = []
 [tool.poetry.dependencies]
 python = "^3.10"
 pycryptodome = "^3.19.0"
+sympy = "^1.12"
+numpy = "^1.26.2"
+docopt = "^0.6.2"
 
 [build-system]
 requires = ["poetry-core"]
