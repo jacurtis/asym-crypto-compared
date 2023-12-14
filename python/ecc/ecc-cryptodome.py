@@ -4,10 +4,17 @@ from Crypto.Random import get_random_bytes
 from Crypto.Hash import SHA256
 
 
-def ecc_encrypt(public_key, data):
+def load_key(file_path):
+    with open(file_path, 'r') as f:
+        key = ECC.import_key(f.read()).
+    return key
+
+def ecc_encrypt(data, public_key=None):
     """ Encrypt data using ECC and AES. """
     cipher_aes = None
     ciphertext = None
+
+    public_key = load_key(public_key)
 
     # Generate a private key for this encryption
     private_key = ECC.generate(curve='P-256')
@@ -33,18 +40,22 @@ def ecc_decrypt(private_key, public_key, ciphertext, nonce, tag):
 
     return data
 
+if __name__ == '__main__':
+    message = "Hello, World!"
+    temp_private_key, encrypted_msg, nonce, tag = ecc_encrypt(message)
+    print("Encrypted:", encrypted_msg)
 
-# Generate ECC keys
-private_key = ECC.generate(curve='P-256')
-public_key = private_key.public_key()
-
-# Encrypt a message
-message = b'Hello, ECC!'
-temp_private_key, ciphertext, nonce, tag = ecc_encrypt(public_key, message)
-
-# Decrypt the message
-decrypted_message = ecc_decrypt(temp_private_key, public_key, ciphertext, nonce, tag)
-
-print("Original Message:", message)
-print("Encrypted Message:", ciphertext)
-print("Decrypted Message:", decrypted_message)
+# # Generate ECC keys
+# private_key = ECC.generate(curve='P-256')
+# public_key = private_key.public_key()
+#
+# # Encrypt a message
+# message = b'Hello, ECC!'
+# temp_private_key, ciphertext, nonce, tag = ecc_encrypt(public_key, message)
+#
+# # Decrypt the message
+# decrypted_message = ecc_decrypt(temp_private_key, public_key, ciphertext, nonce, tag)
+#
+# print("Original Message:", message)
+# print("Encrypted Message:", ciphertext)
+# print("Decrypted Message:", decrypted_message)
